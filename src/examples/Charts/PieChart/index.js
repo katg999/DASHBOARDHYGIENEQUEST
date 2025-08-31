@@ -114,3 +114,4 @@ PieChart.propTypes = {
 };
 
 export default PieChart;
+export { default as AbsenceReasonsChart } from "./AbsenceReasonsChart"; // eslint-disable-next-line no-unused-vars
