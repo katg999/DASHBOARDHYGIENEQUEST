@@ -16,6 +16,7 @@ Coded by www.creative-tim.com
 // @mui material components
 import Grid from "@mui/material/Grid";
 import { useState, useEffect } from "react";
+import Card from "@mui/material/Card"; // ADD THIS IMPORT
 
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
@@ -29,6 +30,7 @@ import Footer from "examples/Footer";
 import ReportsBarChart from "examples/Charts/BarCharts/ReportsBarChart";
 import ReportsLineChart from "examples/Charts/LineCharts/ReportsLineChart";
 import ComplexStatisticsCard from "examples/Cards/StatisticsCards/ComplexStatisticsCard";
+import AbsenceReasonsChart from "examples/Charts/PieChart/AbsenceReasonsChart";
 
 // Data
 import reportsBarChartData from "layouts/dashboard/data/reportsBarChartData";
@@ -291,6 +293,30 @@ function Dashboard() {
             </MDBox>
           </Grid>
         </Grid>
+
+        {/* NEW: Add the Absence Reasons Chart */}
+        <MDBox mt={4.5}>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={6}>
+              <Card>
+                <MDBox p={3}>
+                  <AbsenceReasonsChart attendanceData={attendanceData} />
+                </MDBox>
+              </Card>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              {/* You can add another chart or component here */}
+              <Card>
+                <MDBox p={3}>
+                  <MDTypography variant="h6" fontWeight="medium" textAlign="center">
+                    Attendance by District
+                  </MDTypography>
+                  {/* You can add another chart here later */}
+                </MDBox>
+              </Card>
+            </Grid>
+          </Grid>
+        </MDBox>
         <MDBox mt={4.5}>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6} lg={8}>
