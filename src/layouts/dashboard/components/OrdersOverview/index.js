@@ -16,6 +16,7 @@ Coded by www.creative-tim.com
 // @mui material components
 import Card from "@mui/material/Card";
 import Icon from "@mui/material/Icon";
+import PropTypes from "prop-types";
 
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
@@ -24,12 +25,50 @@ import MDTypography from "components/MDTypography";
 // Material Dashboard 2 React example components
 import TimelineItem from "examples/Timeline/TimelineItem";
 
-function OrdersOverview() {
+function OrdersOverview({ attendanceData = [], loading = false }) {
+  // Get the latest 5 attendance records
+  const recentRecords = attendanceData.slice(-5).reverse();
+
+  // Function to get icon based on attendance rate
+  const getIcon = (present, absent) => {
+    const total = present + absent;
+    const rate = total > 0 ? (present / total) * 100 : 0;
+
+    if (rate >= 70) return "check_circle";
+    if (rate >= 50) return "warning";
+    return "error";
+  };
+
+  // Function to get color based on attendance rate
+  const getColor = (present, absent) => {
+    const total = present + absent;
+    const rate = total > 0 ? (present / total) * 100 : 0;
+
+    if (rate >= 70) return "success";
+    if (rate >= 50) return "warning";
+    return "error";
+  };
+
+  if (loading) {
+    return (
+      <Card sx={{ height: "100%" }}>
+        <MDBox pt={3} px={3}>
+          <MDTypography variant="h6" fontWeight="medium">
+            Recent Attendance
+          </MDTypography>
+          <MDTypography variant="body2" color="text">
+            Loading data...
+          </MDTypography>
+        </MDBox>
+      </Card>
+    );
+  }
+
   return (
     <Card sx={{ height: "100%" }}>
       <MDBox pt={3} px={3}>
         <MDTypography variant="h6" fontWeight="medium">
-          Orders overview
+          Recent Attendance
         </MDTypography>
         <MDBox mt={0} mb={2}>
           <MDTypography variant="button" color="text" fontWeight="regular">
@@ -38,47 +77,44 @@ function OrdersOverview() {
             </MDTypography>
             &nbsp;
             <MDTypography variant="button" color="text" fontWeight="medium">
-              24%
+              {attendanceData.length}
             </MDTypography>{" "}
-            this month
+            total records
           </MDTypography>
         </MDBox>
       </MDBox>
       <MDBox p={2}>
-        <TimelineItem
-          color="success"
-          icon="notifications"
-          title="$2400, Design changes"
-          dateTime="22 DEC 7:20 PM"
-        />
-        <TimelineItem
-          color="error"
-          icon="inventory_2"
-          title="New order #1832412"
-          dateTime="21 DEC 11 PM"
-        />
-        <TimelineItem
-          color="info"
-          icon="shopping_cart"
-          title="Server payments for April"
-          dateTime="21 DEC 9:34 PM"
-        />
-        <TimelineItem
-          color="warning"
-          icon="payment"
-          title="New card added for order #4395133"
-          dateTime="20 DEC 2:20 AM"
-        />
-        <TimelineItem
-          color="primary"
-          icon="vpn_key"
-          title="New card added for order #4395133"
-          dateTime="18 DEC 4:54 AM"
-          lastItem
-        />
+        {recentRecords.map((record, index) => (
+          <TimelineItem
+            key={record.id || index}
+            color={getColor(record.students_present || 0, record.students_absent || 0)}
+            icon={getIcon(record.students_present || 0, record.students_absent || 0)}
+            title={`${record.students_present || 0} present, ${record.students_absent || 0} absent`}
+            dateTime={record.topic_covered || "No topic specified"}
+            lastItem={index === recentRecords.length - 1}
+          />
+        ))}
       </MDBox>
     </Card>
   );
 }
+
+// Add PropTypes validation
+OrdersOverview.propTypes = {
+  attendanceData: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      students_present: PropTypes.number,
+      students_absent: PropTypes.number,
+      topic_covered: PropTypes.string,
+    })
+  ),
+  loading: PropTypes.bool,
+};
+
+OrdersOverview.defaultProps = {
+  attendanceData: [],
+  loading: false,
+};
 
 export default OrdersOverview;
