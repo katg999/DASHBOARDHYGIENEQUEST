@@ -31,6 +31,7 @@ import ReportsBarChart from "examples/Charts/BarCharts/ReportsBarChart";
 import ReportsLineChart from "examples/Charts/LineCharts/ReportsLineChart";
 import ComplexStatisticsCard from "examples/Cards/StatisticsCards/ComplexStatisticsCard";
 import AbsenceReasonsChart from "examples/Charts/PieChart/AbsenceReasonsChart";
+import AttendanceByDistrictChart from "examples/Charts/BarCharts/AttendanceByDistrictChart";
 
 // Data
 import reportsBarChartData from "layouts/dashboard/data/reportsBarChartData";
@@ -294,7 +295,7 @@ function Dashboard() {
           </Grid>
         </Grid>
 
-        {/* NEW: Add the Absence Reasons Chart */}
+        {/* Charts Section */}
         <MDBox mt={4.5}>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6}>
@@ -305,18 +306,18 @@ function Dashboard() {
               </Card>
             </Grid>
             <Grid item xs={12} md={6}>
-              {/* You can add another chart or component here */}
               <Card>
                 <MDBox p={3}>
-                  <MDTypography variant="h6" fontWeight="medium" textAlign="center">
-                    Attendance by District
-                  </MDTypography>
-                  {/* You can add another chart here later */}
+                  <AttendanceByDistrictChart
+                    attendanceData={attendanceData}
+                    usersData={usersData}
+                  />
                 </MDBox>
               </Card>
             </Grid>
           </Grid>
         </MDBox>
+
         <MDBox mt={4.5}>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6} lg={8}>
